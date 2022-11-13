@@ -1,15 +1,15 @@
 
 \subsection{Rate Model}
 \begin{frame}{Rate Models}
-	\onslide<+->{
+%	\onslide<+->{
 	Introduced by Oldrich Vasicek (1977) to model interest rates.
 	\[ dr_t = \kappa(\theta - r_t)dt + \sigma dW_t \]
 	where \( \kappa \) is the \textbf{mean reversion rate},
 	\( \theta \) is the \textbf{long term mean} and
 	\( \sigma \) is the \textbf{volatility} of the interest rate.
-	}
+%	}
 
-	\onslide<+->{
+%	\onslide<+->{
 	The model can be easily solved and the closed form solution is given by
 	\[
 		r_t \sim \mathcal{N} \brak{e^{-\kappa t} r_0 + \theta
@@ -17,7 +17,7 @@
 		\brak{1 - e^{-2\kappa t}}}
 	\]
 	The main disadvantage is that the interest rate can become negative.
-	}
+%	}
 \end{frame}
 
 
@@ -28,9 +28,11 @@
 	and follows the following SDE\@.
 	\[ dr_t = \kappa(\theta - r_t)dt + \sigma \sqrt{r_t} dW_t \] where
 	\begin{itemize}
+		\item \( r_t \) is the \textbf{interest rate} at time \( t \)
 		\item \( \kappa \) is the \textbf{speed of mean reversion}
 		\item \( \theta \) is the \textbf{long term mean}
 		\item \( \sigma \) is the \textbf{volatility coefficient}
+		\item \( W_t \) is a \textbf{Brownian Motion}
 	\end{itemize}
 	with initial rate \( r_0 \) given.
 \end{frame}

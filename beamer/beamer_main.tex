@@ -60,6 +60,18 @@
 \providecommand{\nCr}[2]{\ensuremath{\,^{#1}C_{#2}}}
 \providecommand{\nPr}[2]{\ensuremath{\,^{#1}P_{#2}}}
 
+\AtBeginSection[]{
+	\begin{frame}
+		\vfill
+		\centering
+		\begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+		\usebeamerfont{title}\insertsectionhead\par%
+		\end{beamercolorbox}
+		\vfill
+	\end{frame}
+}
+
+
 \begin{frame}
 	\titlepage
 \end{frame}
