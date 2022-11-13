@@ -1,0 +1,86 @@
+\subsection{Introduction}
+\begin{frame}{Introduction to Heston Model}
+	Developed by Steven Heston in 1993 with the following features
+	\begin{itemize}
+		\item The stock price follows a general Brownian motion
+		\item The stochastic process of the volatility is a CIR process
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Stochastic Differential Equation}
+	\begin{block}{Heston SDE}
+		The Heston model is given by
+		\begin{align*}
+			dS_t &= \mu S_t dt + \sqrt{v_t} S_t dW_t^x & S_0 > 0 \\
+			dv_t &= \kappa(\theta - v_t)dt + \sigma \sqrt{v_t} dW_t^v & v_0 > 0
+		\end{align*}
+		where \( W_t^x \) and \( W_t^v \) are Brownian motions with correlation
+		\( \rho \) where \[ dW_t^x dW_t^v = \rho dt \quad |\rho| \leq 1 \]
+	\end{block}
+	\begin{itemize}
+		\item \( \mu \) is the \textbf{drift}
+		\item \( \kappa \) is the \textbf{speed of mean reversion}
+		\item \( \theta \) is the \textbf{long term mean}
+		\item \( \sigma \) is the \textbf{volatility coefficient}
+		\item \( \rho \) is the \textbf{correlation coefficient}
+	\end{itemize}
+\end{frame}
+
+\subsection{Garsinov Theorem}
+\begin{frame}{Garsinov Theorem}
+	\begin{theorem}[Garsinov Theorem]
+
+	\end{theorem}
+\end{frame}
+
+\subsection{Euler-Maruyama Method}
+\begin{frame}{Euler-Maruyama Method}
+	Numerical Method to solve Stochastic Differential Equations. \\
+	Divide the interval \([0, T]\) into \( N \) equal sub-intervals
+	of length \( \Delta t = \frac{T}{N} \)
+	\[
+		0 = t_0 < t_1 < \cdots < t_N = T
+		\quad \quad \Delta t = \frac{T}{N} = t_{n+1} - t_n
+	\]
+	An SDE
+	\[ \quad dX_t = r(t, X_t)dt + \sigma(t, W_t) dW_t \quad X_0 = 0 \]
+	can be approximated by Euler-Maruyama method, given by
+	\[ X_{n+1} = X_n + r(t_n, X_n) \Delta t + \sigma(t_n, X_n) \Delta W_n \]
+	where \( \Delta W_n \sim \mathcal{N}\brak{0, \sqrt{\Delta t}} \)
+\end{frame}
+
+\subsection{Discretized Heston Model}
+\begin{frame}{Discretized Heston Model}
+	\begin{block}{Discretized Heston Model}
+		The Heston model is given by
+		\begin{align*}
+			S_{t+1} &= S_t + rS_t \Delta t + \sqrt{v_t} Z_x \sqrt{\Delta t} \\
+			v_{t+1} &= v_t + \kappa(\theta - v_t) \Delta t
+				+ \sigma Z_v \sqrt{\Delta t}
+		\end{align*}
+		where \( Z_x, Z_v \sim \mathcal{N}\brak{0, 1} \)
+		with correlation \( \rho \)
+		So, we can write \( Z_x, Z_v \) as
+		\begin{align*}
+			Z_x &= \rho Z_1 + \sqrt{1 - \rho^2} Z_2 \\
+			Z_v &= Z_1
+		\end{align*}
+		where \( Z_1, Z_2 \sim \mathcal{N}\brak{0, 1} \) are independent.
+	\end{block}
+\end{frame}
+
+
+\subsection{Method of Moments}
+\begin{frame}{Method of Moments}
+	We define
+	\[ Q_{t+1} \coloneqq \frac{S_{t+1}}{S_t} = 1 + r + \sqrt{v_t} Z_s \]
+	Sample Moments of \( Q_{t+1} \) are given by
+	\begin{align*}
+		\Exp{Q_{t+1}} &= 1 + r \\
+		\Exp{Q_{t+1}^2} &= \brak{1+r}^2 + \Exp{v_t} \\
+		\Exp{Q_{t+1}^3} &= \brak{1+r}^3 + 3\brak{1+r}\Exp{v_t} \\
+		\Exp{Q_{t+1}^4} &= \brak{1+r}^4 +
+			6\brak{1+r}^2 \Exp{v_t} + 3\Exp{v_t^2} \\
+		\Exp{Q_{t+1}^5} &= \brak{1+r}^5 +
+	\end{align*}
+\end{frame}

@@ -1,0 +1,19 @@
+\subsection{Idea}
+\par We have assumed that interest rate $r(t)$ remains constant in Heston model. But we know that in real world it is not true. So, to we overcome this problem we are going to combine Heston and CIR model.
+
+\par In this case we are taking the interest rates for every three months announced by RBI. Then we use the CIR model to find how the interest rate is evolving.
+
+\par From the CIR model we will be able to find the interest rate at time t. But we know that for every three months the interest rate remains constant. So, we can divide the entire problem of finding the option price to many pieces with constant rate of interest(piece size of three months).
+
+\par For every piece of problem we first use CIR model to find the interest for that piece and then use heston model for that piece with has a constant interest rate.
+
+\section{References}
+\begin{itemize}
+	\item Data source credit: \href{https://www1.nseindia.com/products/content/derivatives/equities/historical_fo.htm}{NSE official website}
+	\item Data source credit: \href{https://in.investing.com/indices/s-p-cnx-nifty-historical-data?interval_sec=daily}{Nifty50 historical index prices}
+	\item Reference credit: “Dual-Hybrid Modeling for Option Pricing of CSI 300 ETF” paper which does a similar analysis on CSI 300 (shanghai stock exchange) options (American style).
+%        \item Wikipedia contributors. (2022, November 9). Girsanov theorem. Wikipedia. https://en.wikipedia.org/wiki/Girsanov$_$theorem
+	\item http://article.journaloffinanceeconomics.com/pdf/jfe-5-1-4.pdf
+	\item https://www.valpo.edu/mathematics-statistics/files/2015/07/Estimating-Option-Prices-with-Heston’s-Stochastic-Volatility-Model.pdf
+	% https://pdfs.semanticscholar.org/4b63/4afa13b5a7bf62de7ecefcf117d24e7f2d89.pdf?_ga=2.6557490.1069149830.1664110414-682637176.1664110414
+\end{itemize}

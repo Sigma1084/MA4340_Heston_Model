@@ -1,0 +1,80 @@
+%%%
+% Author: Yihong Liu (https://liu-yihong.github.io/)
+% Repository:
+% License: GNU GPL v3.0
+% This repository contains an unofficial LaTex beamer
+% template for the University of Texas at Dallas.
+% Copyright (c) 2022 Yihong Liu
+%%%
+\documentclass[
+	xcolor={svgnames},
+	hyperref={pagebackref,bookmarks},
+	% aspectratio=169,
+	aspectratio=43,
+]{beamer}
+
+% https://tex.stackexchange.com/questions/263440/
+% what-are-the-available-modes-in-beamer
+\mode<presentation>
+\input{template/tex/packages-import.tex}
+\input{template/tex/colors-definition.tex}
+\input{template/tex/footline-definition.tex}
+\input{template/tex/presentation-info.tex}
+\renewcommand{\presentationtitle}{Analysis of CIR and Heston Model}
+\renewcommand{\presenter}{Chilukuri Krishna Teja \and
+	VKS Deepak Reddy \and Sumanth NR}
+\renewcommand{\department}{Mathematics}
+\renewcommand{\school}{IITH}
+\renewcommand{\university}{Indian Institute of Technology Hyderabad}
+\renewcommand{\email}{\href{mailto:ma20btech11016@iith.ac.in}}
+\input{template/tex/doc-metadata.tex}
+
+%% End of Template
+
+\usepackage{blkarray}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\newtheorem{proposition}{Proposition}
+
+\title[]{Analysis of CIR and Heston Model}
+
+\title{\presentationtitle}
+\author[]{\presenter}
+\institute[IITH]{
+	\university\\
+}
+\date{\today}
+
+
+\begin{document}
+
+\newcommand{\brak}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\sbrak}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\bigbrak}[1]{\ensuremath{\big{(} #1 \big{)}}}
+\newcommand{\Bigbrak}[1]{\ensuremath{\Big{(} #1 \Big{)}}}
+\newcommand{\Exp}[1]{\ensuremath{\mathbb{E} \left[ #1 \right]}}
+\newcommand{\Var}[1]{\ensuremath{\text{Var} \left[ #1 \right]}}
+\providecommand{\nCr}[2]{\ensuremath{\,^{#1}C_{#2}}}
+\providecommand{\nPr}[2]{\ensuremath{\,^{#1}P_{#2}}}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+	\tableofcontents
+\end{frame}
+
+\section{Introduction}
+\input{src/introduction.tex}
+
+\section{CIR Model}
+\input{src/CIR.tex}
+
+\section{Heston Model}
+\input{src/heston.tex}
+
+\end{document}

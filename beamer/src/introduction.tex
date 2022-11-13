@@ -1,0 +1,18 @@
+\begin{frame}
+	\frametitle{Stochastic Differential Equations(SDEs) and
+	Ito Doeblin Formula}
+	\begin{block}{Stochastic Differental Equation}
+		An SDE is a differential equation that contains a stochastic term
+		\[ dX_t = \mu(X_t, t)dt + \sigma(X_t, t)dW_t \]
+		where \( \mu \) is called the \textbf{drift term} and
+		\( \sigma \) is called the \textbf{diffusion term}.
+	\end{block}
+
+	\subsection{Ito-Doeblin Formula}
+	\begin{theorem}[Ito Doeblin Formula] \label{thm:ito-doeblin-formula}
+		Let \( f(t, X) \) be a continuous function in time \( t \) and \( X \)
+		where \( X \) is a Random Variable that is continuous in \( t \).
+		Then, the Ito Doeblin Formula is given by
+		\[ df(t, X) = \left( f_t + \frac{1}{2}f_{XX} \right) dt + f_{X} dX \]
+	\end{theorem}
+\end{frame}

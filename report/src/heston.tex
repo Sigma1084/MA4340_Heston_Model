@@ -1,0 +1,265 @@
+The \textit{Heston Model} uses statistical methods to calculate and forecast
+option pricing with the assumption that volatility is arbitrary.
+The assumption that volatility is arbitrary, rather than constant,
+is the key factor that makes \textit{stochastic volatility} models unique. \\
+
+\noindent Key features of Heston Model:
+\begin{itemize}
+	\item It considers the possible correlation between a stock's price
+	and its volatility.
+	\item It does not require the stock prices to follow a lognormal
+	probability distribution.(In the Black Scholes model we assume that
+	stock prices follow a lognormal probability distribution).
+\end{itemize}
+
+
+\subsection{Application of Heston Model}
+
+Developed by mathematician Steven Heston in 1993, the Heston model
+was created to price options, which are a type of financial derivative.
+Unlike other financial assets such as equities, the value of an option is
+not based on the value of an asset but rather the change in an underlying
+asset’s price. \\
+
+In the Heston model, volatility is a mean reverting process.
+Mean reversion means that the process does not wander off to
+infinity but oscillates around a well-defined long term average value. \\
+
+Each option is a contract between a buyer and seller, which gives the holder of
+the option the right to buy or sell the underlying asset at a specific price.
+All options have a specific expiration date, at which point the contract must
+be executed at the previously set price or risk expiring. \\
+
+However, the volatility of options depends on the price and maturity.
+Therefore, the Heston model was designed to price an option while accounting
+for these variations in market volatility. \\
+
+There are two categories of options: calls and puts.
+Calls allow the holder to buy at a specific price, and puts allow
+the holder to sell at a specific price. \\
+
+Once a call or put option has been purchased, the date at which
+the holder can buy or sell depends on whether it is an American or
+European option.
+American options allow the holder to execute the option
+anytime before the expiry date, while European options
+only allow the holder to execute the option on the expiry date.
+It’s important to note that the Heston model is only capable of
+pricing European options.
+
+
+\subsection{SDE}
+\par Under the risk-neutral measure the Heston stochastic volatility model,
+which is our point-of-departure, is specified by the following system of SDEs:
+\begin{align}
+	dS_t &= \mu S_t dt+ \sqrt{v_t}S_t dW^x_t , S_0 > 0 \\
+	dv_t &= \kappa( \theta - v_t)dt+ \sigma\sqrt{v_t}dW^v_t , v_0 > 0
+	\label{eq:sde-heston}
+\end{align}
+where,
+\begin{enumerate}
+	\item $\mu$ drift of the stock process(risk-free interest rate under
+	risk-neutral measure)
+	\item $\kappa$ mean reversion coefficient of the variance process
+	\item $\theta$ long term mean of the variance process
+	\item $\sigma$ volatility coefficient of the variance process
+	\item $\rho$ correlation between $W^x_t$ and $dW^v_t$ i.e.,
+\end{enumerate}
+
+\begin{equation}
+	dW^x_t dW^v_t = \rho dt
+\end{equation}
+with $|\rho_{x,\sigma} | < 1$.
+
+The variance process, $v_t$, of the stock $S_t$ is a mean reverting
+square root process, in which $\kappa > 0$ determines the speed of
+adjustment of the volatility towards its theoretical mean,
+$\theta > 0$, and $\sigma > 0$ is the second-order volatility, i.e.,
+the variance of the volatility.
+
+
+\subsection{Girsanov Theorem}
+The stock price and variance in~\ref{eq:sde-heston} are under
+the historical measure $\mathbb{P}$.
+By applying the Girsanov theorem one can find a probability
+measure $\mathbb{Q}$ such that we can represent the stock price in the form
+\begin{align}
+	dS_t &=  rS_t dt+ \sqrt{v_t}S_t d\Tilde{W}^x_t , S_0 > 0,\\
+	dv_t &= \kappa( \theta - v_t)dt+ \sigma\sqrt{v_t}dW^v_t , v_0 > 0
+	\label{eq:girsanov-heston-sde}
+\end{align}
+where,
+\begin{equation}
+	\Tilde{W}^x_t = \left(W^x_t + \frac{\mu - r}{\sqrt{v_t}}\right)
+\end{equation}
+
+
+\subsection{Euler - Maruyama Method}
+Let us divide the time interval $[0,T]$ into $n$ parts
+\begin{equation*}
+	0 = t_0 < t_1 < t_2 < \cdots < t_n = T
+\end{equation*}
+We can choose equally spaced points $t_i$ such that
+\begin{equation*}
+	\Delta t = t_{i+1} - t_i = \frac{T}{N} \hspace{0.5cm}
+	\forall \hspace{1mm}1\leq i \leq N
+\end{equation*}
+An SDE:
+\begin{align*}
+	dX_t &= r(t,X_t)dt + \sigma(t,X_t)dW_t \\
+	X_0 &= 0
+\end{align*}
+can be approximated by:
+\begin{align*}
+	X_{i+1} &= X_i + r(t_i,X_i)\Delta t + \sigma(t_i,X_i)\Delta W_i \\
+	X_0 &= 0
+\end{align*}
+where $X(t_i) = X_i$ , $W(t_i) = W_i$ and
+$\Delta W_t \sim \mathcal{N} \brak{0,\sqrt{\Delta t}}$
+
+
+\subsection{Discretized Heston Model}
+
+The Heston process can be discretized using the Euler-Maruyama method.
+Applying Euler-Maruyama method to Heston SDE~\ref{eq:girsanov-heston-sde}
+we obtain:
+\begin{align}
+	S_{t+1} &= S_t + rS_t\Delta t + \sqrt{v_t}S_t Z_s\sqrt{\Delta t} \\
+	v_{t+1} &= v_t + \kappa(\theta - v_t)\Delta t +
+	\sigma \sqrt{v_t}Z_v\sqrt{\Delta t}
+	\label{eq:discrete-heston}
+\end{align}
+
+where $Z_s,Z_v$ are standard normal random variables with correlation $\rho$.
+So, we can write $Z_s,Z_v$ as,
+\begin{align}
+	Z_s &= \rho Z_1 + \sqrt{1-\rho^2}Z_2 \\
+	Z_v &= Z_1
+\end{align}
+
+
+\subsection{Parameter Estimation using MOM}
+In this method we equate the theoretical moments with the
+sample moments from the data to obtain the parameters. \\
+
+The $j^{th}$ moment of the random variable $Q_t$ is defined as $E(Q_t^j)$.
+We use $M_j$ to denoted the $j^{th}$ sample moment obtained from the data. \\
+
+The process to find the parameters is:
+\begin{enumerate}
+	\item Write m moments in terms of the m parameters that we are trying
+	to estimate.
+
+	\item Obtain sample moments from the data set.
+	The $j^{th}$ sample moment denoted by $\hat{M_j}$ is obtained by
+	raising each observation to the power of $j$ and taking the average
+	of those terms.
+	Symbolically,
+	\begin{equation}
+		\hat{M_j} = \frac{1}{n}\sum_{t=1}^{n}Q_{t+1}^j
+	\end{equation}
+	where,
+	\begin{align}
+		Q_{t+1} &= \frac{S_{t+1}}{S_{t}}\\
+		&= 1 + r + \sqrt{v_t}Z_s
+	\end{align}
+	from~\ref{eq:discrete-heston}
+
+	\item Substitute the $j^{th}$ sample moment for the $j^{th}$ moment
+	in each of the m equations.
+	That is, let $M_j = \hat{M_j}$.
+	Now we have a system of m equations in m unknowns.
+
+	\item Solve for each of the m parameters.
+	The resulting parameter values are the method of moments estimates.
+	We denote the method of moments estimate of a parameter $\alpha$ as
+	$\hat{\alpha}_{MOM}$.
+
+\end{enumerate}
+
+When working with a data set of stock values, we are given values of $S_t$
+rather than values of $Q_{t+1}$.
+We can easily transform the data set into values of $Q_{t+1}$ by solving
+for $\frac{S_{t+1}}{S_t}$ for each value of $t$.
+We wish to write five moments of $Q_{t+1}$ in terms of the five
+parameters $r, \kappa, \theta, \sigma,$ and $\rho$. \\
+
+Letting $M_j$ represent the $j^{th}$ moment of $Q_{t+1}$,
+we express formulas for the first moment, the second moment,
+the fourth moment, and the fifth moment.
+We have excluded the third moment because it does not add any
+information to the system beyond the information available
+from the first two moments. \\
+
+\subsection{Calculating Theoretical Moments}
+
+We know that
+\[
+	Q_{t+1} = 1 + r + \sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}
+\]
+We need to find the moments of \( Q_{t+1}^n \) for \( 1 \leq n \leq 5 \).
+
+\begin{align*}
+	\Exp{Q_{t+1}} &= 1 + r + \Exp{\sqrt{v_t}\brak{\rho Z_1 +
+		\sqrt{1 - \rho^2} Z_2}} \\
+	&= 1 + r + \rho \Exp{\sqrt{v_t}} \Exp{Z_1} + \sqrt{1 - \rho^2}
+		\Exp{\sqrt{v_t}}\Exp{Z_2} \\
+	&= 1 + r + \rho \Exp{\sqrt{v_t}} \cdot 0 + \sqrt{1 - \rho^2}
+		\Exp{\sqrt{v_t}} \cdot 0 \\
+	&= 1 + r \numberthis
+\end{align*}
+We can observe that we just need to calculate for even powers of
+\( \Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}}^n} \)
+since expectations containing odd powers of \( Z \) is 0.
+\begin{align*}
+	&\Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}}^2} \\
+	& = \rho^2 \Exp{v_t} \Exp{Z_1^2} + \brak{1 - \rho^2} \Exp{v_t} \Exp{Z_2^2}
+		+ 2\Exp{v_t} \cdot 0 \\
+	&= \Exp{v_t} + \Exp{v_t}\brak{\rho^2 - \rho^2} \\
+	&= \Exp{v_t} \numberthis
+\end{align*}
+
+Using the same logic,
+\begin{align*}
+	&\Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}}^4} \\
+	& = \rho^4 \Exp{v_t^2} \Exp{Z_1^4} + \brak{1 - \rho^2}^2
+		\Exp{v_t^2} \Exp{Z_2^4} + \\
+	& \quad + 6\Exp{v_t^2} \rho^2 \brak{1 - \rho^2} \Exp{Z_1^2} \Exp{Z_2^2} \\
+	&= \Exp{v_t^2} \brak{3\rho^4 + 3\brak{1 - \rho^2}^2
+		+ 6\rho^2\brak{1-\rho^2}} \\
+	&= \Exp{v_t^2} \brak{6\rho^4 - 6\rho^2 + 3 - 6\rho^4 + 6\rho^2} \\
+	&= 3\Exp{v_t^2} \numberthis
+\end{align*}
+
+Now, we can use the above results to calculate the moments of \( Q_{t+1} \). \\
+Let's say
+\[
+	B_n \coloneqq\Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 +
+	\sqrt{1 - \rho^2} Z_2}}^n} \numberthis
+\]
+
+\begin{align*}
+	\Exp{Q_{t+1}^2} &= (1+r)^2 + 2(1+r)B_1 + B_2 \\
+	&= (1+r)^2 + \Exp{v_t} \numberthis \\
+	\\
+	\Exp{Q_{t+1}^3} &= (1+r)^3 + 3(1+r)^2 B_1 + 3(1+r)B_2 + B_3 \\
+	&= (1+r)^3 + 3(1+r)\Exp{v_t} \numberthis \\
+	\\
+	\Exp{Q_{t+1}^4} &= (1+r)^4 + 6(1+r)^2 B_2 + B_4 \\
+	&= (1+r)^4 + 6(1+r)^2 \Exp{v_t} + 3\Exp{v_t^2} \numberthis \\
+	\\
+	\Exp{Q_{t+1}^5} &= (1+r)^5 + 10(1+r)^3 B_2 + 5(1+r)B_4 \\
+	&= (1+r)^5 + 10(1+r)^3 \Exp{v_t} + 15(1+r)\Exp{v_t^2} \numberthis \\
+\end{align*}
+
+
+\subsection{Expectation of $j^{th}$ moment}
+
+Moments of $Q_{t+1}$
+
+Recall the discretized formula for $Q_{t+1}$.
+
+The third moment of $Q_{t+1}$ uses the same two parameters that the first and second moments use, so the third moment will not be used when solving for the method of moments parameter estimates.
+
+
+

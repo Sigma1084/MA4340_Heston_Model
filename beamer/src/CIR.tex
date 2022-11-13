@@ -1,0 +1,201 @@
+
+\subsection{Rate Model}
+\begin{frame}{Rate Models}
+	\onslide<+->{
+	Introduced by Oldrich Vasicek (1977) to model interest rates.
+	\[ dr_t = \kappa(\theta - r_t)dt + \sigma dW_t \]
+	where \( \kappa \) is the \textbf{mean reversion rate},
+	\( \theta \) is the \textbf{long term mean} and
+	\( \sigma \) is the \textbf{volatility} of the interest rate.
+	}
+
+	\onslide<+->{
+	The model can be easily solved and the closed form solution is given by
+	\[
+		r_t \sim \mathcal{N} \brak{e^{-\kappa t} r_0 + \theta
+		\brak{1 - e^{-\kappa t}}, \frac{\sigma^2}{2\kappa}
+		\brak{1 - e^{-2\kappa t}}}
+	\]
+	The main disadvantage is that the interest rate can become negative.
+	}
+\end{frame}
+
+
+\subsection{CIR Model}
+\begin{frame}{CIR Model}
+	The \textbf{CIR} model was introduced by John Carrington \textbf{Cox},
+	Jonathan Edwards \textbf{Ingersoll} and Stephen Alan \textbf{Ross} (1985)
+	and follows the following SDE\@.
+	\[ dr_t = \kappa(\theta - r_t)dt + \sigma \sqrt{r_t} dW_t \] where
+	\begin{itemize}
+		\item \( \kappa \) is the \textbf{speed of mean reversion}
+		\item \( \theta \) is the \textbf{long term mean}
+		\item \( \sigma \) is the \textbf{volatility coefficient}
+	\end{itemize}
+	with initial rate \( r_0 \) given.
+\end{frame}
+
+
+\begin{frame}
+	\begin{proposition}
+		The exact solution of CIR is given by
+		\[
+			r_t = e^{-\kappa t} r_0 + \theta \brak{1 - e^{-\kappa t}} +
+			\sigma e^{-\kappa t} \int_0^t e^{\kappa s} \sqrt{r_t} dW_s
+		\]
+	\end{proposition}
+	\begin{proof}<+->
+		\begin{align*}
+%			\onslide<+->{
+			dr_t &= \kappa(\theta - r_t)dt + \sigma \sqrt{r_t} dW_t \\
+%			} \onslide<+->{
+			e^{\kappa t} dr_t + \kappa e^{\kappa t} r_t dt
+				&= \kappa\theta e^{\kappa t}dt +
+				\sigma e^{\kappa t} \sqrt{r_t} dW_t \\
+%			} \onslide<+->{
+			\implies d\brak{e^{\kappa t} r_t} &=
+				\kappa\theta e^{\kappa t}dt +
+				\sigma e^{\kappa t} \sqrt{r_t} dW_t
+				\quad \text{(Ito Doeblin Formula)} \\
+%			} \onslide<+->{
+			\implies \int_0^t d\brak{e^{\kappa s} r_s} &= \int_0^t
+				\theta\kappa e^{\kappa s}ds +
+				\int_0^t \sigma e^{\kappa s} \sqrt{r_s} dW_s \\
+%			} \onslide<+->{
+			\therefore\ r_t &= e^{-\kappa t} r_0 + \theta
+				\brak{1 - e^{-\kappa t}} + \sigma
+				\int_0^t e^{\kappa s} \sqrt{r_s} dW_s
+%			}
+		\end{align*}
+	\end{proof}
+\end{frame}
+
+
+\begin{frame}
+	\begin{proposition}
+		The expectation of \( r_t \) is given by
+		\[ \displaystyle \Exp{r_t} = e^{-\kappa t} r_0
+		+ \theta \brak{1 - e^{-\kappa t}} \]
+	\end{proposition}
+	\begin{proof}<+->
+		\begin{align*}
+%			\onslide<+->{
+			\Exp{r_t} &= \Exp{e^{-\kappa t} r_0 + \theta
+				\brak{1 - e^{-\kappa t}} + \sigma
+				\int_0^t e^{\kappa s} \sqrt{r_s} dW_s} \\
+%			} \onslide<+->{
+			&= e^{-\kappa t} r_0 + \theta\brak{1 - e^{-\kappa t}} +
+				\Exp{\sigma \int_0^t e^{\kappa s} \sqrt{r_s} dW_s} \\
+%			} \onslide<+->{
+			\therefore \Exp{r_t} &= e^{-\kappa t} r_0 +
+			\theta \brak{1 - e^{-\kappa t}}
+%			}
+		\end{align*}
+	\end{proof}
+%	\onslide<+->{
+	Note that \( \displaystyle \lim_{t \to \infty} \Exp{r_t} = \theta \)
+	(\textbf{long term mean}).
+%	}
+\end{frame}
+
+
+\begin{frame}
+	\begin{proposition}
+		The variance of \( r_t \) is given by
+		\[
+			\Var{r_t} = \frac{\sigma^2}{\kappa} r_0
+			\brak{e^{-\kappa t} - e^{-2\kappa t}} +
+			\frac{\theta\sigma^2}{2\kappa} \brak{1 - e^{-\kappa t}}^2
+		\]
+	\end{proposition}
+	\begin{proof}<+->
+		\begin{align*}
+%			\onslide<+->{
+			\Var{r_t} &= \Exp{r_t^2} - \Exp{r_t}^2 \\
+%			} \onslide<+->{
+			&= \Exp{\brak{e^{-\kappa t} r_0 + \theta
+				\brak{1 - e^{-\kappa t}} + \sigma e^{-\kappa t}
+				\int_0^t e^{\kappa s} \sqrt{r_s} dW_s}^2} - \Exp{r_t}^2 \\
+%			} \onslide<+->{
+			&= \Exp{\brak{\Exp{r_t} + \sigma e^{-\kappa t}
+				\int_0^t e^{\kappa s} \sqrt{r_s} dW_s}^2}
+				- \Exp{r_t}^2 \\
+%			} \onslide<+->{
+			&= 2\Exp{\Exp{r_t} \sigma e^{-\kappa t}
+				\int_0^t e^{\kappa s} \sqrt{r_s} dW_s}
+				+ \Exp{\brak{\sigma e^{-\kappa t} \int_0^t e^{\kappa s}
+				\sqrt{r_s} dW_s}^2}
+%			}
+		\end{align*}
+	\end{proof}
+\end{frame}
+
+\begin{frame}
+	\begin{proof}
+		\begin{align*}
+%			\onslide<+->{
+			&= 2\ \Exp{r_t} e^{-\kappa t} \cdot 0 +
+				\Exp{\brak{\sigma e^{-\kappa t} \int_0^t e^{\kappa s}
+				\sqrt{r_s} dW_s}^2} \\
+%			} \onslide<+->{
+			&= \Exp{\sigma^2 e^{-2\kappa t} \int_0^t e^{2\kappa s} r_s ds}
+				\quad (\text{Iso Isometry}) \\
+%			} \onslide<+->{
+			&= \sigma^2 e^{-2\kappa t}
+				\int_0^t e^{2\kappa s} \Exp{r_s} ds \\
+%			} \onslide<+->{
+			&= \sigma^2 e^{-2\kappa t}
+				\int_0^t e^{2\kappa s} \brak{e^{-\kappa s} r_0 +
+				\theta \brak{1 - e^{-\kappa s}}} ds \\
+%			} \onslide<+->{
+			&= \frac{\sigma^2}{\kappa} e^{-2\kappa t} r_0
+				\brak{e^{\kappa s} - 1}
+				+ \theta\sigma^2 e^{-2\kappa t}
+				\int_0^t \brak{e^{2\kappa s} - e^{\kappa s}} ds \\
+%			} \onslide<+->{
+			&= \frac{\sigma^2}{\kappa} r_0
+				\brak{e^{-\kappa t} - e^{-2\kappa t}} +
+				\frac{\theta\sigma^2}{2\kappa} \brak{1 - e^{-\kappa t}}^2
+%			}
+		\end{align*}
+	\end{proof}
+\end{frame}
+
+\subsection{Method of Moments of Ito Integral}
+\begin{frame}{Method of Moments of Ito Integral}
+	\( \displaystyle I_t = \int_0^t \Delta_s dW_s \quad \) and
+	\( \quad \Exp{I_t} = 0 \quad (\text{Zero Mean Property}) \)
+
+	\( \displaystyle \Exp{I_t^2} = \Exp{\int_0^t \Delta^2(s) ds} \quad \)
+	(Ito Isometry)
+
+	\begin{proposition}
+		\( \displaystyle \Exp{I_t^3} = 0 \)
+	\end{proposition}
+
+	\begin{proof}%<2->
+		\( \displaystyle X_t^n = n \int_0^t X_s^{n-1} dX_s
+		+ \frac{n(n-1)}{2} \int_0^t X_s^{n-2} ds \quad \)
+		(Ito Doeblin Formula)
+		\begin{align*}
+			\Exp{\int_0^t I_s^2 \Delta(t) dW_t} &= 0
+			\implies \Exp{I_t^3} = 0 + 3 \int_0^t \Exp{I_s} ds = 0
+		\end{align*}
+	\end{proof}
+\end{frame}
+
+\subsection{\( 3^{rd} \) Moment of \( r_t \)}
+\begin{frame}{\( 3^{rd} \) Moment of \( r_t \)}
+	\[ \Exp{r_t^3} = \Exp{\brak{A_t + B_t I_t}^3} \] where
+	\( A_t = e^{-\kappa t} r_0 + \theta \brak{1 - e^{-\kappa t}} \quad \)
+	\( B_t = \sigma e^{-\kappa t} \) and \\
+	\( \displaystyle I_t = \int_0^t e^{\kappa s} \sqrt{r_s} dW_s \quad \)
+	\begin{align*}
+		\Exp{r_t^3} &= \Exp{\brak{A_t + B_t I_t}^3} \\
+		&= A_t^3 + 3A_t^2 B_t\Exp{I_t} + 3A_t B_t^2\Exp{I_t^2}
+			+ B_t^3\Exp{I_t^3} \\
+		&= A_t^3 + 3A_t B_t^2\Exp{I_t^2} \\
+		&= A_t \brak{A_t^2 + B_t^2 \int_0^t e^{2\kappa s} \Exp{r_s} ds } \\
+		&= \Exp{r_t} \brak{\Exp{r_t}^2 + \Var{r_t}}
+	\end{align*}
+\end{frame}

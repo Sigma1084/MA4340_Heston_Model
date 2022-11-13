@@ -1,0 +1,79 @@
+\appendix
+
+We know that
+\[
+	Q_{t+1} = 1 + r + \sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}
+\]
+
+We need to find the moments of \( Q_{t+1}^n \) for \( 1 \leq n \leq 5 \). \\
+For our approximations to work, we prove a small lemma.
+
+%\[ \Exp{\Delta(t) Z^{2k+1}} = 0 \quad \forall\ k \in \mathbb{N} \]
+%where \( \Delta \) is any positive, smooth
+%and bounded function of \( t \) and \( W_t \). \\
+
+%\textit{Proof.}
+%\begin{gather*}
+%	0 \leq \Delta(t) \leq C \\
+%	0 \leq \Delta(t)Z \leq CZ \\
+%	\Exp{}
+%\end{gather*}
+
+
+
+%\subsection{\( \Exp{Q_{t+1}} \)}
+\begin{align*}
+	\Exp{Q_{t+1}} &= 1 + r + \Exp{\sqrt{v_t}\brak{\rho Z_1 +
+		\sqrt{1 - \rho^2} Z_2}} \\
+	&= 1 + r + \rho \Exp{\sqrt{v_t}} \Exp{Z_1} + \sqrt{1 - \rho^2}
+		\Exp{\sqrt{v_t}}\Exp{Z_2} \\
+	&= 1 + r + \rho \Exp{\sqrt{v_t}} \cdot 0 + \sqrt{1 - \rho^2}
+		\Exp{\sqrt{v_t}} \cdot 0 \\
+	&= 1 + r
+\end{align*}
+
+%\subsection{\( \Exp{Q_{t+1}^2} \)}
+We can observe that we just need to calculate for even powers of
+\( \Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}}^n} \)
+since expectations containing odd powers of \( Z \) is 0 due to independence.
+
+\begin{align*}
+	&\Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}}^2} \\
+	& = \rho^2 \Exp{v_t} \Exp{Z_1^2} + \brak{1 - \rho^2} \Exp{v_t} \Exp{Z_2^2}
+		+ 2\Exp{v_t} \cdot 0 \\
+	&= \Exp{v_t} + \Exp{v_t}\brak{\rho^2 - \rho^2} \\
+	&= \Exp{v_t}
+\end{align*}
+
+Using the same logic,
+\begin{align*}
+	&\Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 + \sqrt{1 - \rho^2} Z_2}}^4} \\
+	& = \rho^4 \Exp{v_t^2} \Exp{Z_1^4} + \brak{1 - \rho^2}^2
+		\Exp{v_t^2} \Exp{Z_2^4} + \\
+	& \quad + 6\Exp{v_t^2} \rho^2 \brak{1 - \rho^2} \Exp{Z_1^2} \Exp{Z_2^2} \\
+	&= \Exp{v_t^2} \brak{3\rho^4 + 3\brak{1 - \rho^2}^2
+		+ 6\rho^2\brak{1-\rho^2}} \\
+	&= \Exp{v_t^2} \brak{6\rho^4 - 6\rho^2 + 3 - 6\rho^4 + 6\rho^2} \\
+	&= 3\Exp{v_t^2}
+\end{align*}
+
+Now, we can use the above results to calculate the moments of \( Q_{t+1} \). \\
+Let's say
+\[
+	B_n \coloneqq\Exp{\brak{\sqrt{v_t}\brak{\rho Z_1 +
+	\sqrt{1 - \rho^2} Z_2}}^n}
+\]
+
+\begin{align*}
+	\Exp{Q_{t+1}^2} &= (1+r)^2 + 2(1+r)B_1 + B_2 \\
+	&= (1+r)^2 + \Exp{v_t} \\
+	\\
+	\Exp{Q_{t+1}^3} &= (1+r)^3 + 3(1+r)^2 B_1 + 3(1+r)B_2 + B_3 \\
+	&= (1+r)^3 + 3(1+r)\Exp{v_t} \\
+	\\
+	\Exp{Q_{t+1}^4} &= (1+r)^4 + 6(1+r)^2 B_2 + B_4 \\
+	&= (1+r)^4 + 6(1+r)^2 \Exp{v_t} + 3\Exp{v_t^2} \\
+	\\
+	\Exp{Q_{t+1}^5} &= (1+r)^5 + 10(1+r)^3 B_2 + 5(1+r)B_4 \\
+	&= (1+r)^5 + 10(1+r)^3 \Exp{v_t} + 15(1+r)\Exp{v_t^2} \\
+\end{align*}
