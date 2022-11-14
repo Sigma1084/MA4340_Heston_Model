@@ -79,7 +79,8 @@
 	\begin{block}{Discretized Heston Model}
 		The Heston model is given by
 		\begin{align*}
-			S_{t+1} &= S_t + rS_t \Delta t + \sqrt{v_t} Z_x \sqrt{\Delta t} \\
+			S_{t+1} &= S_t + rS_t \Delta t + \sqrt{v_t} S_t Z_x
+				\sqrt{\Delta t} \\
 			v_{t+1} &= v_t + \kappa(\theta - v_t) \Delta t
 				+ \sigma Z_v \sqrt{\Delta t}
 		\end{align*}
