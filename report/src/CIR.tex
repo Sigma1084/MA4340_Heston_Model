@@ -170,14 +170,14 @@ The expectation and variance of $r_t \coloneqq r(t)$ are given by
 \( A_t = e^{-\kappa t} r_0 + \theta \brak{1 - e^{-\kappa t}} \quad \)
 \( B_t = \sigma e^{-\kappa t} \) and \\
 \( \displaystyle I_t = \int_0^t e^{\kappa s} \sqrt{r_s} dW_s \quad \)
-\begin{align}
+\begin{align*}
 	\Exp{r_t^3} &= \Exp{\brak{A_t + B_t I_t}^3} \\
 	&= A_t^3 + 3A_t^2 B_t\Exp{I_t} + 3A_t B_t^2\Exp{I_t^2} \nonumber \\
 	& \quad \quad + B_t^3\Exp{I_t^3} \\
 	&= A_t^3 + 3A_t B_t^2\Exp{I_t^2} \\
 	&= A_t \brak{A_t^2 + B_t^2 \int_0^t e^{2\kappa s} \Exp{r_s} ds } \\
-	&= \Exp{r_t} \brak{\Exp{r_t}^2 + \Var{r_t}}
-\end{align}
+	&= \Exp{r_t} \brak{\Exp{r_t}^2 + \Var{r_t}} \numberthis
+\end{align*}
 
 
 \subsection{Parameter Estimation}
